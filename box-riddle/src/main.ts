@@ -1,6 +1,7 @@
 import { Scene, PerspectiveCamera, WebGLRenderer, HemisphereLight } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { buildBoxExample } from './boxFactory';
+import { buildBoxExample, buildBoxFromEnvelopData } from './boxFactory';
+import Boxes from '../data/boxes.json';
 
 const run = () => {
   // setup webgl context
@@ -18,8 +19,13 @@ const run = () => {
   scene.add(light);
 
   // adding example of box geometry to aour scene
-  const boxExample = buildBoxExample();
-  scene.add( boxExample );
+  // const boxExample = buildBoxExample();
+  // scene.add( boxExample );
+
+  Object.values(Boxes.geometry).forEach((boxData) => {
+    const boxFromJson = buildBoxFromEnvelopData(boxData);
+    scene.add( boxFromJson );
+  });
 
   // set initial camera position
   camera.position.set(5, 5, 5);

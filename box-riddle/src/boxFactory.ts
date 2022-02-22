@@ -1,4 +1,5 @@
 import { Color, Mesh, MeshStandardMaterial, BoxGeometry } from 'three';
+import { Box, generateColor, getPositionForBox, getScaleForBox, applyScale } from './utills';
 
 export const buildBoxExample = (): Mesh => {
   // setup color for box
@@ -17,6 +18,22 @@ export const buildBoxExample = (): Mesh => {
 
   // customize scale
   const scale = { x: 1, y: 2, z: 3 };
+  box.scale.set(scale.x, scale.y, scale.z);
+
+  return box;
+}
+
+export const buildBoxFromEnvelopData = (boxData: Box) => {
+  const randomColor = generateColor();
+  const material = new MeshStandardMaterial( { color: randomColor } );
+  const geometry = new BoxGeometry();
+
+  const box = new Mesh( geometry, material );
+
+  const position = applyScale(getPositionForBox(boxData));
+  box.position.set(position.x, position.y, position.z);
+
+  const scale = applyScale(getScaleForBox(boxData));
   box.scale.set(scale.x, scale.y, scale.z);
 
   return box;
